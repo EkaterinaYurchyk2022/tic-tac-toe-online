@@ -1,7 +1,7 @@
 import {useGameState} from "./UseGameState";
-import styles from "./game.module.css";
 import {GameInfo} from "./GameInfo";
 import {GameCell} from "./GameCell";
+import {ResetButton} from "./ResetButton";
 
 export default function Game() {
 
@@ -16,13 +16,13 @@ export default function Game() {
     } = useGameState()
 
     return (
-        <div className={styles.game}>
+        <div className="flex flex-col items-center w-40 mx-auto my-24 border border-black p-5">
             <GameInfo
                 isDraw={isDraw}
                 winnerSymbol={winnerSymbol}
                 currentStep={currentStep}
             />
-            <div className={styles.game_field}>
+            <div className="grid pt-px pl-px grid-cols-[repeat(3,_30px)] grid-rows-[repeat(3,_30px)]">
                 {cells.map((symbol, index) => (
                     <GameCell
                         symbol={symbol}
@@ -32,7 +32,7 @@ export default function Game() {
 
                 ))}
             </div>
-            <button className={styles.reset} onClick={handleResetClick}>Сбросить</button>
+            <ResetButton onClick={handleResetClick}/>
         </div>
     )
 }
