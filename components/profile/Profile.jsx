@@ -2,7 +2,7 @@ import Image from "next/image";
 import avatarSrc from "./avatar.png";
 import { clsx } from "clsx";
 
-export function Profile({ classname }) {
+export function Profile({ classname, name, rating, avatar = avatarSrc }) {
   return (
     <div
       className={clsx(
@@ -10,11 +10,11 @@ export function Profile({ classname }) {
         "flex items-center gap-2 text-start text-teal-600 ",
       )}
     >
-      <Image src={avatarSrc} width={48} height={48} alt="avatar" unoptimized />
-      <div>
-        <div className="text-lg leading-tight">Ivan</div>
+      <Image src={avatar} width={48} height={48} alt="avatar" unoptimized />
+      <div className="overflow-hidden">
+        <div className="text-lg leading-tight truncate">{name}</div>
         <div className="text-slate-400 text-xs leading-tight">
-          Рейтинг: 1230
+          Рейтинг: {rating}
         </div>
       </div>
     </div>
