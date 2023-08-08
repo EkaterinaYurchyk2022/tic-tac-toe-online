@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { GAME_SYMBOLS } from "./constants";
+import { GAME_SYMBOLS } from "../game-new/constants";
 import { computeWinner, getNextMove } from "./model";
 
 export function useGameState(playersCount) {

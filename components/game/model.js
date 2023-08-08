@@ -1,4 +1,4 @@
-import { MOVE_ORDER } from "./constants";
+import { MOVE_ORDER } from "../game-new/constants";
 
 export function getNextMove(currentMove, playersCount, playersTimeOver) {
   const slicedMoveOrder = MOVE_ORDER.slice(0, playersCount).filter(
