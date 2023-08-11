@@ -6,22 +6,38 @@ import { PlayerInfo } from "./ui/PlayerInfo";
 import { PLAYERS } from "./constants";
 import { GameMoveInfo } from "./ui/GameMoveInfo";
 import { GameCell } from "./ui/GameCell";
-import { useGameState } from "./model/useGameState";
 import { GameOverModal } from "./ui/GameOverModal";
+import {
+  GAME_STATE_ACTIONS,
+  gameStateReducer,
+  initGameState,
+} from "./model/gameStateReducer";
+import { computeWinner } from "./model/computeWinner";
+import { getNextMove } from "./model/getNextMove";
+import { useReducer } from "react";
+import { computeWinnerSymbol } from "./model/computeWinnerSymbol";
 
 const PLAYERS_COUNT = 2;
 
 export function Game() {
-  const {
-    cells,
-    currentMove,
+  const [gameState, dispatch] = useReducer(
+    gameStateReducer,
+    { playersCount: PLAYERS_COUNT },
+    initGameState,
+  );
+
+  const winnerSequence = computeWinner(gameState);
+
+  const nextMove = getNextMove(gameState);
+
+  const winnerSymbol = computeWinnerSymbol(gameState, {
     nextMove,
-    handleCellClick,
-    winnerSymbol,
     winnerSequence,
-  } = useGameState(PLAYERS_COUNT);
+  });
 
   const winnerPlayer = PLAYERS.find((player) => player.symbol === winnerSymbol);
+
+  const { cells, currentMove } = gameState;
 
   return (
     <>
@@ -51,7 +67,10 @@ export function Game() {
             disabled={!!winnerSymbol}
             isWinner={winnerSequence?.includes(index)}
             onClick={() => {
-              handleCellClick(index);
+              dispatch({
+                type: GAME_STATE_ACTIONS.CELL_CLICK,
+                index,
+              });
             }}
             symbol={cell}
           />
