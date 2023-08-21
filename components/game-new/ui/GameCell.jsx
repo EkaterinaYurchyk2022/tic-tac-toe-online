@@ -1,7 +1,13 @@
 import clsx from "clsx";
 import { GameSymbol } from "./GameSymbol";
+import { memo } from "react";
 
-export function GameCell({ onClick, isWinner, disabled, symbol }) {
+export const GameCell = memo(function GameCell({
+  onClick,
+  isWinner,
+  disabled,
+  symbol,
+}) {
   return (
     <button
       disabled={disabled}
@@ -14,4 +20,4 @@ export function GameCell({ onClick, isWinner, disabled, symbol }) {
       {symbol && <GameSymbol symbol={symbol} className="w-5 h-5" />}
     </button>
   );
-}
+});

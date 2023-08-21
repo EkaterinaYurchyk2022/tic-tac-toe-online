@@ -14,7 +14,7 @@ import {
 } from "./model/gameStateReducer";
 import { computeWinner } from "./model/computeWinner";
 import { getNextMove } from "./model/getNextMove";
-import { useReducer } from "react";
+import { useCallback, useMemo, useReducer } from "react";
 import { computeWinnerSymbol } from "./model/computeWinnerSymbol";
 import { computePlayerTimer } from "./model/computePlayerTimer";
 import { useInterval } from "../lib/timers";
@@ -32,14 +32,18 @@ export function Game() {
     initGameState,
   );
 
-  useInterval(1000, gameState.currentMoveStart, () => {
-    dispatch({
-      type: GAME_STATE_ACTIONS.TICK,
-      now: Date.now(),
-    });
-  });
+  useInterval(
+    100,
+    !!gameState.currentMoveStart,
+    useCallback(() => {
+      dispatch({
+        type: GAME_STATE_ACTIONS.TICK,
+        now: Date.now(),
+      });
+    }, []),
+  );
 
-  const winnerSequence = computeWinner(gameState);
+  const winnerSequence = useMemo(() => computeWinner(gameState), [gameState]);
 
   const nextMove = getNextMove(gameState);
 
