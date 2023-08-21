@@ -54,6 +54,14 @@ export function Game() {
 
   const winnerPlayer = PLAYERS.find((player) => player.symbol === winnerSymbol);
 
+  const handleCellClick = useCallback((index) => {
+    dispatch({
+      type: GAME_STATE_ACTIONS.CELL_CLICK,
+      index,
+      now: Date.now(),
+    });
+  }, []);
+
   const { cells, currentMove } = gameState;
 
   return (
@@ -88,15 +96,10 @@ export function Game() {
         gameCells={cells.map((cell, index) => (
           <GameCell
             key={index}
+            index={index}
             disabled={!!winnerSymbol}
             isWinner={winnerSequence?.includes(index)}
-            onClick={() => {
-              dispatch({
-                type: GAME_STATE_ACTIONS.CELL_CLICK,
-                index,
-                now: Date.now(),
-              });
-            }}
+            onClick={handleCellClick}
             symbol={cell}
           />
         ))}
